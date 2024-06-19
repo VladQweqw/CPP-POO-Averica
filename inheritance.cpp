@@ -1,47 +1,56 @@
 #include <iostream>
 using namespace std;
 
-class Vehicle {
+class Punct {
+    double x, y;
+
     public:
-        int total_km;
-        int factory_year;
-        virtual void Drive() = 0;
+        Punct(double xx = 0.0, double yy = 0.0) {
+        x = xx;
+        y = yy;
+    }
+
+    virtual double Area() {
+        return 0.0;
+    }
+
+    void Print() {
+        cout << "Punct\n";
+    }
 };
 
-class Boat : public Vehicle {
-    public: 
-        void Drive() {
-            cout<<"Driving on water\n";
-        };
-};
+class Cerc: public Punct {
+    double raza;
+    public:
+        Cerc(double r = 0.0) {
+        raza = r;
+    }
 
-class Plane : public Vehicle {
-    public: 
-        void Drive() {
-            cout<<"Flying on the sky\n";
-        };
-};
-
-class Car : public Vehicle {
-    public: 
-        void Drive() {
-            cout<<"Driving on road\n";
-        };
-};
-
-int main() {
-    Vehicle* vehicles[3];
-
-    vehicles[0] = new Boat();
-    vehicles[1] = new Plane();
-    vehicles[2] = new Car();
-
-    for(int i = 0; i < 3; i++) {
-        vehicles[i]->Drive();
-    };
-
-    for(int i = 0; i < 3; i++) {
-        delete vehicles[i];
-    };
+    virtual double Area() {
+        return 3.14 * raza * raza;
+    }
+    void Print() {
+        cout << "Cerc\n" << endl;
+    }
 
 };
+void Calcul(Punct * p) {
+    cout << p -> Area() << endl;
+}
+
+int main(void) {
+    Cerc * cerc = new Cerc(10);
+    Punct * pct = cerc; //corect
+
+    pct -> Print(); // ce apare pe ecran ?
+    cerc -> Print();
+
+    cout << pct -> Area() << "\n"; // ce apare pe ecran ?
+    cout << cerc -> Area() << "\n"; // ce apare pe ecran ?
+
+    Calcul(pct); // ce apare pe ecran ?
+    Calcul(cerc); // ce apare pe ecran ?
+
+    delete cerc;
+    return 0;
+}
